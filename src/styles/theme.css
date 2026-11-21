@@ -1,0 +1,312 @@
+/* =============================================================================
+   Tema Social Flux
+   Cores principais: #fff e #002bb3. Tons derivados são usados só em
+   componentes secundários (hover, fundos suaves, bordas).
+   O modo escuro vem do Bootstrap 5.3: <html data-bs-theme="dark">.
+   ============================================================================= */
+
+:root {
+    --sf-primary: #002bb3;
+    --sf-primary-rgb: 0, 43, 179;
+    --sf-primary-hover: #001f85;
+    --sf-primary-text: #002bb3; /* cor de links/ícones sobre a superfície */
+    --sf-primary-soft: #e8edff;
+    --sf-surface: #ffffff;
+    --sf-bg: #f3f5fb;
+    --sf-border: #dfe4f3;
+    --sf-muted: #5f6988;
+    --sf-radius: 16px;
+
+    --bs-primary: var(--sf-primary);
+    --bs-primary-rgb: var(--sf-primary-rgb);
+    --bs-link-color: var(--sf-primary-text);
+    --bs-link-color-rgb: var(--sf-primary-rgb);
+    --bs-link-hover-color: var(--sf-primary-hover);
+    --bs-link-hover-color-rgb: 0, 31, 133;
+    --bs-border-color: var(--sf-border);
+    --bs-body-bg: var(--sf-bg);
+    --bs-body-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+[data-bs-theme='dark'] {
+    --sf-primary: #3b5bff;
+    --sf-primary-rgb: 59, 91, 255;
+    --sf-primary-hover: #5a76ff;
+    --sf-primary-text: #8da3ff;
+    --sf-primary-soft: rgba(91, 124, 255, 0.16);
+    --sf-surface: #101734;
+    --sf-bg: #0a0f24;
+    --sf-border: #232d57;
+    --sf-muted: #9aa6cf;
+
+    --bs-link-color-rgb: 141, 163, 255;
+    --bs-link-hover-color-rgb: 175, 190, 255;
+    --bs-body-bg: var(--sf-bg);
+    --bs-body-bg-rgb: 10, 15, 36;
+    --bs-secondary-bg: var(--sf-surface);
+    --bs-tertiary-bg: var(--sf-surface);
+}
+
+/* ---------- Base ---------- */
+body {
+    background: var(--sf-bg);
+}
+
+hr {
+    border-color: var(--sf-border);
+    opacity: 1;
+}
+
+.min-w-0 {
+    min-width: 0;
+}
+
+ion-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.btn ion-icon,
+.nav-link ion-icon,
+.dropdown-item ion-icon {
+    margin-right: 0.5rem;
+}
+
+/* ---------- Componentes do Bootstrap na paleta ---------- */
+.btn {
+    --bs-btn-border-radius: 999px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--sf-primary);
+    --bs-btn-border-color: var(--sf-primary);
+    --bs-btn-hover-bg: var(--sf-primary-hover);
+    --bs-btn-hover-border-color: var(--sf-primary-hover);
+    --bs-btn-active-bg: var(--sf-primary-hover);
+    --bs-btn-active-border-color: var(--sf-primary-hover);
+    --bs-btn-disabled-bg: var(--sf-primary);
+    --bs-btn-disabled-border-color: var(--sf-primary);
+    --bs-btn-focus-shadow-rgb: var(--sf-primary-rgb);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--sf-primary-text);
+    --bs-btn-border-color: var(--sf-primary);
+    --bs-btn-hover-bg: var(--sf-primary);
+    --bs-btn-hover-border-color: var(--sf-primary);
+    --bs-btn-active-bg: var(--sf-primary-hover);
+    --bs-btn-active-border-color: var(--sf-primary-hover);
+    --bs-btn-focus-shadow-rgb: var(--sf-primary-rgb);
+}
+
+.btn-link {
+    --bs-btn-color: var(--sf-primary-text);
+    --bs-btn-hover-color: var(--sf-primary-hover);
+}
+
+.btn-icon {
+    --bs-btn-padding-x: 0.35rem;
+    --bs-btn-padding-y: 0.35rem;
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: 0;
+    color: inherit;
+    border-radius: 50%;
+    padding: 0.35rem;
+}
+
+.btn-icon ion-icon {
+    margin-right: 0;
+}
+
+.btn-icon:hover {
+    background: var(--sf-primary-soft);
+    color: var(--sf-primary-text);
+}
+
+.bg-primary {
+    background-color: var(--sf-primary) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--sf-primary);
+    box-shadow: 0 0 0 0.25rem rgba(var(--sf-primary-rgb), 0.2);
+}
+
+.form-check-input:checked {
+    background-color: var(--sf-primary);
+    border-color: var(--sf-primary);
+}
+
+.form-check-input:focus {
+    border-color: var(--sf-primary);
+    box-shadow: 0 0 0 0.25rem rgba(var(--sf-primary-rgb), 0.2);
+}
+
+.form-error {
+    font-size: 0.8rem;
+}
+
+.dropdown-menu,
+.modal-content {
+    --bs-dropdown-bg: var(--sf-surface);
+    --bs-modal-bg: var(--sf-surface);
+    --bs-dropdown-border-color: var(--sf-border);
+    --bs-modal-border-color: var(--sf-border);
+    --bs-dropdown-link-hover-bg: var(--sf-primary-soft);
+    --bs-dropdown-link-active-bg: var(--sf-primary);
+    border-radius: 14px;
+}
+
+.nav-underline {
+    --bs-nav-underline-link-active-color: var(--sf-primary-text);
+}
+
+.toast {
+    --bs-toast-border-radius: 12px;
+}
+
+/* ---------- Layout ---------- */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    top: 0;
+    background: var(--sf-surface);
+    border-right: 1px solid var(--sf-border);
+}
+
+.sidebar .content {
+    flex-grow: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.sidebar .content::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar .nav-link,
+.sidebar .user-menu {
+    color: var(--bs-body-color);
+    border-radius: 12px;
+    font-weight: 500;
+    background: none;
+    border: 0;
+    text-align: left;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .user-menu:hover {
+    background: var(--sf-primary-soft);
+    color: var(--sf-primary-text);
+}
+
+.sidebar .nav-link.active {
+    background: var(--sf-primary-soft);
+    color: var(--sf-primary-text);
+    font-weight: 700;
+}
+
+.brand {
+    color: var(--sf-primary-text);
+    font-weight: 700;
+}
+
+.brand:hover {
+    color: var(--sf-primary-hover);
+}
+
+.brand .logo {
+    width: 40px;
+    margin-right: 0.5rem;
+}
+
+.container-main {
+    flex: 1;
+    min-width: 0;
+    padding: 0 12px;
+}
+
+.main {
+    max-width: 760px;
+    margin-inline: auto;
+    min-height: calc(100vh - 2rem);
+    padding: 0.5rem 0;
+    background: var(--sf-surface);
+    border: 1px solid var(--sf-border);
+    border-radius: var(--sf-radius);
+    box-shadow: 0 6px 24px rgba(var(--sf-primary-rgb), 0.06);
+}
+
+.small-header {
+    background: var(--sf-surface);
+    border-color: var(--sf-border) !important;
+}
+
+.footer-bar {
+    background: var(--sf-surface);
+    border-top: 1px solid var(--sf-border);
+}
+
+.footer-bar .nav-link {
+    color: var(--bs-body-color);
+    border-radius: 12px;
+}
+
+.footer-bar .nav-link.active {
+    background: var(--sf-primary-soft);
+    color: var(--sf-primary-text);
+}
+
+.footer-bar ion-icon {
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+@media (max-width: 991.98px) {
+    .container-main {
+        padding: 0 0 4.5rem;
+    }
+
+    .main {
+        margin-top: 0 !important;
+        min-height: auto;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+
+/* ---------- Toasts ---------- */
+.toast-stack {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: min(360px, calc(100vw - 2rem));
+}
+
+/* ---------- Login ---------- */
+.login-panel {
+    min-height: 100vh;
+    background: var(--sf-surface);
+}
+
+.login-hero {
+    background: linear-gradient(160deg, #002bb3 0%, #001a73 100%);
+}
+
+[data-bs-theme='dark'] .login-hero {
+    background: linear-gradient(160deg, #1b34a8 0%, #0a1250 100%);
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 480px;
+}

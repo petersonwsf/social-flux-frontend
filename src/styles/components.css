@@ -1,0 +1,198 @@
+/* Estilos de componentes. Cores vêm de theme.css, então o modo escuro é automático. */
+
+.avatar {
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+/* ---------- Postagens ---------- */
+.post .foto-perfil {
+    width: 60px;
+}
+
+.foto-perfil-postagem {
+    width: 50px;
+}
+
+.post-image {
+    display: block;
+    width: min(100%, 420px);
+    height: auto;              /* com width/height do <img>, o navegador reserva o espaço pela proporção */
+    border: 1px solid var(--sf-border);
+    border-radius: 12px;
+}
+
+.infos-user a {
+    font-weight: 600;
+}
+
+.username-muted {
+    font-weight: 400;
+    color: var(--sf-muted);
+}
+
+.legenda {
+    font-size: 1.05rem;
+    margin-bottom: 0.25rem;
+}
+
+.post .legenda {
+    font-size: 1.2rem;
+}
+
+.referente {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.post-action ion-icon {
+    font-size: 1.4rem;
+}
+
+.post-action.is-liked {
+    color: #e0245e;
+}
+
+.input-comentario {
+    width: 100%;
+    resize: none;
+    padding: 0.6rem 0.8rem;
+    color: inherit;
+    background: transparent;
+    border: 1px solid var(--sf-border);
+    border-radius: 14px;
+    outline: none;
+}
+
+.input-comentario:focus {
+    border-color: var(--sf-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--sf-primary-rgb), 0.15);
+}
+
+@media (max-width: 575.98px) {
+    .post .foto-perfil {
+        width: 42px;
+    }
+
+    .foto-perfil-postagem {
+        width: 40px;
+    }
+
+    .legenda,
+    .post .legenda {
+        font-size: 0.95rem;
+    }
+
+    .post-image {
+        width: 100%;
+    }
+}
+
+/* ---------- Perfil ---------- */
+.perfil {
+    min-height: 500px;
+}
+
+.perfil .foto-perfil {
+    width: 100%;
+    max-width: 160px;
+}
+
+.perfil-username {
+    font-size: clamp(1.25rem, 3.5vw, 2rem);
+    font-weight: 600;
+}
+
+.perfil-nome,
+.perfil-bio {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+}
+
+.follow {
+    padding: 0 0.5rem;
+    color: inherit;
+}
+
+.relacao-em-comum {
+    font-size: clamp(0.7rem, 1.8vw, 0.95rem);
+}
+
+.foto-relacao-em-comum {
+    width: 22px;
+    border: 2px solid var(--sf-surface);
+}
+
+.tab-menu {
+    border-bottom: 1px solid var(--sf-border);
+}
+
+.tab-menu .nav-link {
+    font-weight: 600;
+    color: var(--sf-muted);
+}
+
+.tab-menu .nav-link.active {
+    color: var(--sf-primary-text);
+}
+
+.foto-edicao {
+    width: clamp(100px, 25vw, 200px);
+}
+
+/* ---------- Busca e relações ---------- */
+.foto-search {
+    width: 56px;
+}
+
+.search-username {
+    font-size: 1.05rem;
+    color: var(--bs-body-color);
+}
+
+.search-name {
+    font-size: 0.9rem;
+}
+
+.card-relacao {
+    padding: 0.25rem 0.75rem;
+}
+
+.card-relacao a {
+    color: var(--bs-body-color);
+}
+
+/* ---------- Notificações ---------- */
+.notification {
+    color: var(--bs-body-color);
+}
+
+.notification.no-viewed {
+    background: var(--sf-primary-soft);
+}
+
+.notification:hover {
+    background: var(--sf-primary-soft);
+    color: var(--bs-body-color);
+}
+
+/* ---------- Configurações ---------- */
+.subtitle {
+    font-weight: 600;
+    color: var(--sf-muted);
+}
+
+.settings-group {
+    padding: 1rem 0;
+    border-top: 1px solid var(--sf-border);
+}
+
+/* ---------- Modais ---------- */
+.list-users {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.notfoundimage {
+    width: min(50%, 220px);
+    margin-bottom: 1.5rem;
+}
