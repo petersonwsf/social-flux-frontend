@@ -1,6 +1,8 @@
+import { useRef } from 'react'
 import { ErrorMessage, Field, Form, Formik, type FormikErrors } from 'formik'
 import Avatar from '../common/Avatar'
 import ModalImagemComentario from '../modals/ModalImagemComentario'
+import SeletorEmoji from './SeletorEmoji'
 import { MAX_LEGENDA, temConteudo, validarAnexo } from '../../lib/midia'
 import type { CriarPostagemPayload, Usuario } from '../../types/api'
 
@@ -23,6 +25,19 @@ function validar(values: CriarPostagemPayload): FormikErrors<CriarPostagemPayloa
 function FormComentar({ user, idPostagem, onSubmit }: FormComentarProps) {
     const initialValues: CriarPostagemPayload = { legenda: '', imagem: null }
     const modalId = `modalImagemComentario-${idPostagem}`
+    const campoRef = useRef<HTMLTextAreaElement>(null)
+
+    /** Insere o emoji na posição do cursor (ou no fim) e devolve o foco ao campo. */
+    const inserirEmoji = (emoji: string, atual: string, atualizar: (texto: string) => void) => {
+        const campo = campoRef.current
+        const inicio = campo?.selectionStart ?? atual.length
+        const fim = campo?.selectionEnd ?? atual.length
+        atualizar(atual.slice(0, inicio) + emoji + atual.slice(fim))
+        window.requestAnimationFrame(() => {
+            campo?.focus()
+            campo?.setSelectionRange(inicio + emoji.length, inicio + emoji.length)
+        })
+    }
 
     return (
         <Formik
@@ -42,6 +57,7 @@ function FormComentar({ user, idPostagem, onSubmit }: FormComentarProps) {
                         <Field
                             as="textarea"
                             name="legenda"
+                            innerRef={campoRef}
                             className="input-comentario"
                             placeholder="Insira um comentário"
                             aria-label="Comentário"
@@ -51,16 +67,23 @@ function FormComentar({ user, idPostagem, onSubmit }: FormComentarProps) {
                     <ErrorMessage name="legenda" component="div" className="text-danger form-error mb-2" />
                     <ErrorMessage name="imagem" component="div" className="text-danger form-error mb-2" />
                     <div className="d-flex w-100 justify-content-between align-items-center">
-                        <button
-                            type="button"
-                            className="btn btn-icon"
-                            data-bs-toggle="modal"
-                            data-bs-target={`#${modalId}`}
-                            aria-label="Anexar imagem ou GIF"
-                        >
-                            <ion-icon name="image-outline"></ion-icon>
-                            {values.imagem && <small className="ms-1">{values.imagem.name}</small>}
-                        </button>
+                        <div className="d-flex align-items-center">
+                            <button
+                                type="button"
+                                className="btn btn-icon"
+                                data-bs-toggle="modal"
+                                data-bs-target={`#${modalId}`}
+                                aria-label="Anexar imagem ou GIF"
+                            >
+                                <ion-icon name="image-outline"></ion-icon>
+                                {values.imagem && <small className="ms-1">{values.imagem.name}</small>}
+                            </button>
+                            <SeletorEmoji
+                                onSelecionar={(emoji) =>
+                                    inserirEmoji(emoji, values.legenda, (texto) => void setFieldValue('legenda', texto))
+                                }
+                            />
+                        </div>
                         <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                             Comentar
                         </button>

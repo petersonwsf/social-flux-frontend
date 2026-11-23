@@ -141,16 +141,16 @@
 
 /* ---------- Busca e relações ---------- */
 .foto-search {
-    width: 56px;
+    width: 40px;
 }
 
 .search-username {
-    font-size: 1.05rem;
+    font-size: 0.9rem;
     color: var(--bs-body-color);
 }
 
 .search-name {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .card-relacao {
@@ -164,6 +164,14 @@
 /* ---------- Notificações ---------- */
 .notification {
     color: var(--bs-body-color);
+}
+
+.notification-text {
+    font-size: 0.95rem;
+}
+
+.notification-time {
+    font-size: 0.75rem;
 }
 
 .notification.no-viewed {
@@ -195,4 +203,120 @@
 .notfoundimage {
     width: min(50%, 220px);
     margin-bottom: 1.5rem;
+}
+
+/* Legenda alinhada à foto: recuo = largura do ícone (1.25rem) + margem (1rem). */
+.notification-legenda {
+    margin-left: 2.25rem;
+}
+
+.notification .btn ion-icon {
+    margin-right: 0;
+}
+
+/* Deslize vertical (componente Deslizante): anima a altura de 0 até o conteúdo, na abertura e no fechamento. */
+.slide-down,
+.slide-up {
+    display: grid;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.slide-down {
+    animation-name: slide-down;
+}
+
+.slide-up {
+    animation-name: slide-up;
+}
+
+.slide-inner {
+    min-height: 0;
+    overflow: hidden;
+    padding: 0.25rem;
+}
+
+.slide-down.estavel > .slide-inner {
+    overflow: visible;
+}
+
+@keyframes slide-down {
+    from {
+        grid-template-rows: 0fr;
+        opacity: 0;
+    }
+
+    to {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+}
+
+@keyframes slide-up {
+    from {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+
+    to {
+        grid-template-rows: 0fr;
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slide-down,
+    .slide-up {
+        animation-duration: 0.01ms;
+    }
+}
+
+/* Seletor de emojis */
+.seletor-emoji {
+    width: 17rem;
+}
+
+.seletor-emoji.show {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.1rem;
+}
+
+.btn-emoji {
+    --bs-btn-padding-x: 0;
+    --bs-btn-padding-y: 0.2rem;
+    --bs-btn-border-radius: 8px;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    background: none;
+    border: 0;
+}
+
+.btn-emoji:hover {
+    background: var(--sf-primary-soft);
+}
+
+/* Nome de usuário com limite: passou da largura máxima, termina em "...". */
+.nome-limitado {
+    display: block;
+    max-width: 14rem;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Estado vazio (NoContent) */
+.no-content {
+    min-height: 50vh;
+}
+
+.no-content .no-content-icon {
+    color: var(--sf-primary-text);
+}
+
+.no-content .no-content-icon ion-icon {
+    font-size: 5rem;
+    margin: 0;
 }

@@ -13,10 +13,10 @@ function CardUsuarioSearch({ userSearched }: { userSearched: Usuario }) {
             <Link to={`/perfil/${userSearched.username}`} className="nav-link d-flex align-items-center">
                 <Avatar user={userSearched} className="foto-search me-3" />
                 <div className="d-flex flex-column min-w-0">
-                    <span className="search-username">{userSearched.username}</span>
-                    <span className="search-name text-secondary">{userSearched.nome}</span>
+                    <span className="search-username nome-limitado">{userSearched.username}</span>
+                    <span className="search-name text-secondary nome-limitado">{userSearched.nome}</span>
                     {emComum > 0 && (
-                        <small className="text-secondary text-truncate">
+                        <small className="text-secondary text-truncate" style={{ fontSize: "0.75rem" }}>
                             Seguido por {emComum} {emComum === 1 ? 'usuário' : 'usuários'} em comum
                         </small>
                     )}
