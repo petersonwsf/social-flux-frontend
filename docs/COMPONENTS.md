@@ -15,11 +15,12 @@ Legenda da coluna **Usado em**: onde o componente é usado hoje (ajuda a medir o
 | --- | --- | --- | --- | --- |
 | `Avatar` | `src/components/common/Avatar.tsx` | Foto de perfil circular com fallback para a imagem padrão; monta a URL com `getAvatarUrl` | `user?` (`foto_perfil`, `username`), `size?` (px ou CSS) + qualquer atributo de `<img>` | sidebar, cards de usuário/postagem, perfil, editar perfil |
 | `ButtonBack` | `src/components/common/ButtonBack.tsx` | Botão de ícone "voltar" (`navigate(-1)`) | — | quase todas as páginas autenticadas |
-| `Loading` | `src/components/common/Loading.tsx` | Animação de carregamento | — | `Perfil` |
-| `NoContent` | `src/components/common/NoContent.tsx` | Ilustração + mensagem para listas vazias | `msg` | `Home`, `PerfilPostagens` |
+| `Loading` | `src/components/common/Loading.tsx` | Animação de carregamento | `width?` (CSS, padrão `300px`) | `Perfil` |
+| `NoContent` | `src/components/common/NoContent.tsx` | Ícone (cor do tema) + mensagem, centralizados, para listas vazias | `msg` | `Home`, `PerfilPostagens` |
 | `NotFoundMessage` | `src/components/common/NotFoundMessage.tsx` | Ilustração + mensagem de item não encontrado | `msg` | `Perfil`, `PostPage` |
 | `ProtectedContent` | `src/components/common/ProtectedContent.tsx` | Aviso de conteúdo protegido (perfil privado não seguido) | — | `Perfil` |
 | `TabMenu` | `src/components/common/TabMenu.tsx` | Menu de abas genérico e tipado pelo id da aba | `tabs` (`{ id, label }[]`), `active`, `onChange(id)` | `Perfil`, `Notifications` |
+| `Deslizante` | `src/components/common/Deslizante.tsx` | Mostra/oculta o conteúdo com deslize vertical (abre e fecha animado; só desmonta ao fim do fechamento) | `aberto`, `children`, `className?` | `Postagem`, `PostSecondary` (formulário de comentário) |
 
 ## `auth/` — telas de conta
 
@@ -38,7 +39,8 @@ Cada formulário define o próprio esquema Yup e recebe `onSubmit` assíncrono; 
 | `FormSignin` | `src/components/forms/FormSignin.tsx` | Login (e-mail e senha) com link para alternar ao cadastro | `onSubmit(LoginPayload)`, `toggleForm()` | `Login` |
 | `FormSignup` | `src/components/forms/FormSignup.tsx` | Cadastro (e-mail, telefone, sexo, nascimento, nome, username, senha + confirmação) | `onSubmit(RegisterPayload)`, `toggleForm()` | `Login` |
 | `FormCriarPostagem` | `src/components/forms/FormCriarPostagem.tsx` | Nova postagem: texto e/ou imagem (PNG, JPEG, WebP) ou GIF, com as regras de `lib/midia.ts` no cliente | `onSubmit(CriarPostagemPayload)` | `CriarPostagem` |
-| `FormComentar` | `src/components/forms/FormComentar.tsx` | Resposta a uma postagem (texto e/ou imagem/GIF por modal), com avatar do usuário e validação "texto ou imagem" | `user`, `idPostagem` (UUID; gera id de modal único), `onSubmit(CriarPostagemPayload)` | `Postagem`, `PostSecondary` |
+| `FormComentar` | `src/components/forms/FormComentar.tsx` | Resposta a uma postagem (texto, emojis na posição do cursor e/ou imagem/GIF por modal), com avatar do usuário e validação "texto ou imagem" | `user`, `idPostagem` (UUID; gera id de modal único), `onSubmit(CriarPostagemPayload)` | `Postagem`, `PostSecondary` |
+| `SeletorEmoji` | `src/components/forms/SeletorEmoji.tsx` | Botão com grade de emojis (dropdown do Bootstrap) | `onSelecionar(emoji)` | `FormComentar` |
 | `FormEditarPerfil` | `src/components/forms/FormEditarPerfil.tsx` | Edição de username, nome, biografia e conta privada | `user`, `onSubmit(EditarPerfilPayload)` | `EditarPerfil` |
 | `FormAlterarFotoPerfil` | `src/components/forms/FormAlterarFotoPerfil.tsx` | Envio de nova foto de perfil | `onSubmit(foto: File)` | `EditarPerfil` |
 
@@ -59,9 +61,9 @@ Cada formulário define o próprio esquema Yup e recebe `onSubmit` assíncrono; 
 | `ProtectedLayout` | `src/components/layout/ProtectedLayout.tsx` | Rota-pai das telas autenticadas: redireciona sem sessão, monta `NotificationsProvider`, sidebar (desktop), cabeçalho e rodapé (mobile) e o `<Outlet />` | — | `App.tsx` |
 | `Brand` | `src/components/layout/Brand.tsx` | Logo + nome "Social Flux" com link para `/` | `className?` | sidebar, cabeçalho mobile |
 | `FooterBar` | `src/components/layout/FooterBar.tsx` | Barra de navegação fixa no rodapé (só mobile): início, busca, criar, notificações (com badge), perfil | `user` | `ProtectedLayout` |
-| `Sidebar` | `src/components/layout/sidebar/Sidebar.tsx` | Sidebar fixa (só desktop) que troca entre as visões menu, busca, solicitações e notificações; menu do usuário (perfil, configurações, sair) | `user` | `ProtectedLayout` |
-| `SidebarMenu` | `src/components/layout/sidebar/SidebarMenu.tsx` | Links principais da sidebar com badges de solicitações (total real, também em tooltip: "N solicitações pendentes") e de não vistas | `solicitacoesPendentes`, `naoVistas`, `onAbrirSolicitacoes`, `onAbrirBusca`, `onAbrirNotificacoes` | `Sidebar` |
-| `SearchUsuario` | `src/components/layout/sidebar/SearchUsuario.tsx` | Busca de usuários dentro da sidebar | `onVoltar()` | `Sidebar` |
+| `Sidebar` | `src/components/layout/sidebar/Sidebar.tsx` | Sidebar fixa (só desktop) que troca entre as visões menu, busca, solicitações e notificações; botão "Sair" (vermelho, contorno; abre a confirmação) no rodapé | `user` | `ProtectedLayout` |
+| `SidebarMenu` | `src/components/layout/sidebar/SidebarMenu.tsx` | Links da sidebar: Página inicial, Buscar usuário, Notificações, Solicitações, Meu perfil (com a foto no lugar do ícone) e Configurações; badges de solicitações (total real, também em tooltip: "N solicitações pendentes") e de não vistas | `user`, `solicitacoesPendentes`, `naoVistas`, `onAbrirSolicitacoes`, `onAbrirBusca`, `onAbrirNotificacoes` | `Sidebar` |
+| `SearchUsuario` | `src/components/layout/sidebar/SearchUsuario.tsx` | Busca de usuários dentro da sidebar (input com lupa, debounce de 1 s e loading pequeno enquanto aguarda) | `onVoltar()` | `Sidebar` |
 | `SidebarRelacoes` | `src/components/layout/sidebar/SidebarRelacoes.tsx` | Solicitações de seguir dentro da sidebar | `solicitacoes`, `temMais`, `onVoltar`, `onCarregarMais`, `onAceitar(solicitacao)`, `onRecusar(solicitacao)` | `Sidebar` |
 | `NotificationsSidebar` | `src/components/layout/sidebar/NotificationsSidebar.tsx` | Notificações dentro da sidebar (marca a área como aberta: badge zerado e sem toast); marca como vistas ao voltar | `onVoltar()` | `Sidebar` |
 | `SidebarBackLink` | `src/components/layout/sidebar/SidebarBackLink.tsx` | Link "voltar" das visões internas da sidebar | `onClick()` | visões da sidebar |
@@ -106,5 +108,5 @@ Cada formulário define o próprio esquema Yup e recebe `onSubmit` assíncrono; 
 
 | Componente | Caminho | Para que serve | Props principais | Usado em |
 | --- | --- | --- | --- | --- |
-| `Notification` | `src/components/notifications/Notification.tsx` | Uma notificação (grupo): ícone por tipo, até 2 avatares, frase agrupada, trecho da resposta, tempo relativo e link para a postagem/perfil; em `FOLLOW_REQUEST`, botões **Aceitar/Recusar** | `notificacao`, `onAceitar?`, `onRecusar?` | `ListNotifications` |
+| `Notification` | `src/components/notifications/Notification.tsx` | Uma notificação (grupo): ícone por tipo, até 2 avatares, frase agrupada, trecho da resposta, tempo relativo (no fim da legenda) e link para a postagem/perfil; em `FOLLOW_REQUEST`, botões de ícone (check/close) para aceitar/recusar | `notificacao`, `onAceitar?`, `onRecusar?` | `ListNotifications` |
 | `ListNotifications` | `src/components/notifications/ListNotifications.tsx` | Lista de notificações (mensagem de vazio e "Carregar mais") | `notifications`, `onAceitar?`, `onRecusar?`, `temMais?`, `carregando?`, `onCarregarMais?` | `Notifications`, `NotificationsSidebar` |

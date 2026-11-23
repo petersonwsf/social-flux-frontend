@@ -14,7 +14,7 @@ function ProtectedLayout() {
 
     return (
         <NotificationsProvider>
-            <div className="d-block d-lg-flex">
+            <div className="app-shell d-block d-lg-flex">
                 <header className="d-block d-lg-none w-100 py-2 border-bottom text-center small-header sticky-top">
                     <Brand className="justify-content-center fs-3" />
                 </header>

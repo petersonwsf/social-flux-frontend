@@ -171,7 +171,7 @@ ion-icon {
 
 /* ---------- Layout ---------- */
 .sidebar {
-    width: 280px;
+    width: 380px;
     height: 100vh;
     top: 0;
     background: var(--sf-surface);
@@ -267,6 +267,13 @@ ion-icon {
 }
 
 @media (max-width: 991.98px) {
+    /* Mobile: a superfície cobre a tela inteira (sem faixa do fundo da página abaixo do conteúdo curto). */
+    .app-shell {
+        min-height: 100vh;
+        min-height: 100dvh;
+        background: var(--sf-surface);
+    }
+
     .container-main {
         padding: 0 0 4.5rem;
     }

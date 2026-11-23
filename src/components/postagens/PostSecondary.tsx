@@ -4,6 +4,7 @@ import { calcTempPost } from '../../lib/dates'
 import { ehDoUsuario } from '../../lib/autoria'
 import { usePostagemInteracoes } from '../../hooks/usePostagemInteracoes'
 import Avatar from '../common/Avatar'
+import Deslizante from '../common/Deslizante'
 import FormComentar from '../forms/FormComentar'
 import DropdownActions from './DropdownActions'
 import EmRespostaA from './EmRespostaA'
@@ -33,15 +34,16 @@ function PostSecondary({ postagem, onExcluir }: PostSecondaryProps) {
                         <div className="d-flex infos-user justify-content-between w-100 align-items-center">
                             <div className="d-flex text-truncate align-items-center">
                                 <Link to={`/perfil/${autor.username}`} className="me-2 text-decoration-none d-flex text-truncate">
-                                    {autor.nome}
+                                    <span className="nome-limitado">{autor.nome}</span>
                                     <span className="ms-2 text-truncate username-muted">@{autor.username}</span>
                                 </Link>
+                                <span className="text-secondary me-2" aria-hidden="true">·</span>
                                 <span className="text-secondary">{calcTempPost(postagem.criado_em)}</span>
                             </div>
                             {ehDoUsuario(autor, user) && <DropdownActions onExcluir={() => onExcluir(postagem.id)} />}
                         </div>
+                        {postagem.pai && <EmRespostaA pai={postagem.pai} comLink />}
                         <Link className="text-decoration-none text-body mt-1" to={`/postagem/${postagem.id}`}>
-                            {postagem.pai && <EmRespostaA pai={postagem.pai} />}
                             {postagem.legenda && <p className="legenda text-break pe-2">{postagem.legenda}</p>}
                             {postagem.imagem && <ImagemPostagem imagem={postagem.imagem} />}
                         </Link>
@@ -51,13 +53,11 @@ function PostSecondary({ postagem, onExcluir }: PostSecondaryProps) {
                             <CommentButton onClick={alternarComentario} />
                             <span>{respostas.total}</span>
                         </div>
-                        {comentando && (
-                            <div className="w-100 mt-4 pe-2">
-                                <FormComentar user={user} idPostagem={postagem.id} onSubmit={comentar} />
-                            </div>
-                        )}
                     </div>
                 </div>
+                <Deslizante aberto={comentando} className="px-2 px-lg-4 pb-2">
+                    <FormComentar user={user} idPostagem={postagem.id} onSubmit={comentar} />
+                </Deslizante>
             </article>
             <hr />
         </>

@@ -1,6 +1,9 @@
 import { NavLink } from 'react-router-dom'
+import Avatar from '../../common/Avatar'
+import type { Usuario } from '../../../types/api'
 
 interface SidebarMenuProps {
+    user: Usuario
     solicitacoesPendentes: number
     naoVistas: number
     onAbrirSolicitacoes: () => void
@@ -20,6 +23,7 @@ function tituloSolicitacoes(total: number): string {
 }
 
 function SidebarMenu({
+    user,
     solicitacoesPendentes,
     naoVistas,
     onAbrirSolicitacoes,
@@ -27,18 +31,25 @@ function SidebarMenu({
     onAbrirNotificacoes,
 }: SidebarMenuProps) {
     return (
-        <ul className="nav nav-pills flex-column px-2">
+        <ul className="nav nav-pills flex-column gap-2 px-2">
             <li>
                 <NavLink to="/" end className="nav-link d-flex align-items-center">
                     <ion-icon name="home-outline"></ion-icon>
-                    Início
+                    Página inicial
                 </NavLink>
             </li>
             <li>
-                <NavLink to="/criarPost" className="nav-link d-flex align-items-center">
-                    <ion-icon name="create-outline"></ion-icon>
-                    Criar postagem
-                </NavLink>
+                <button type="button" onClick={onAbrirBusca} className="nav-link d-flex align-items-center w-100">
+                    <ion-icon name="search-outline"></ion-icon>
+                    Buscar usuário
+                </button>
+            </li>
+            <li>
+                <button type="button" onClick={onAbrirNotificacoes} className="nav-link d-flex align-items-center w-100">
+                    <ion-icon name="notifications-outline"></ion-icon>
+                    Notificações
+                    <Badge value={naoVistas} />
+                </button>
             </li>
             <li>
                 <button
@@ -53,17 +64,16 @@ function SidebarMenu({
                 </button>
             </li>
             <li>
-                <button type="button" onClick={onAbrirBusca} className="nav-link d-flex align-items-center w-100">
-                    <ion-icon name="search-outline"></ion-icon>
-                    Buscar usuário
-                </button>
+                <NavLink to={`/perfil/${user.username}`} className="nav-link d-flex align-items-center">
+                    <Avatar user={user} size="1.25rem" className="me-2 flex-shrink-0" alt="" />
+                    Meu perfil
+                </NavLink>
             </li>
             <li>
-                <button type="button" onClick={onAbrirNotificacoes} className="nav-link d-flex align-items-center w-100">
-                    <ion-icon name="notifications-outline"></ion-icon>
-                    Notificações
-                    <Badge value={naoVistas} />
-                </button>
+                <NavLink to="/settings" className="nav-link d-flex align-items-center">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    Configurações
+                </NavLink>
             </li>
         </ul>
     )
