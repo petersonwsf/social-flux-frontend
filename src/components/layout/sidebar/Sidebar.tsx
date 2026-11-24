@@ -3,6 +3,7 @@ import { useAuth } from '../../../hooks/useAuth'
 import { useNotificacoes } from '../../../hooks/useNotificacoes'
 import { useRelacoesPendentes } from '../../../hooks/useRelacoesPendentes'
 import ModalAction from '../../modals/ModalAction'
+import ModalPostar from '../../modals/ModalPostar'
 import Brand from '../Brand'
 import NotificationsSidebar from './NotificationsSidebar'
 import SearchUsuario from './SearchUsuario'
@@ -67,6 +68,7 @@ function Sidebar({ user }: { user: Usuario }) {
                 </div>
             </aside>
             <ModalAction id="modalLogout" title="Deseja sair?" action={() => void logout()} titleAction="Sair" danger />
+            <ModalPostar user={user} />
         </section>
     )
 }

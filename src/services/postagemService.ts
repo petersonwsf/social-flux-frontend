@@ -9,7 +9,7 @@ const BASE = '/api/postagens'
 export async function criar(values: CriarPostagemPayload, idPai?: string): Promise<Postagem> {
     const formData = new FormData()
     if (values.legenda.trim()) formData.append('legenda', values.legenda)
-    if (values.imagem) formData.append('imagem', values.imagem)
+    values.imagens.forEach((imagem) => formData.append('imagens', imagem))
     if (idPai !== undefined) formData.append('pai', idPai)
 
     const { data } = await api.post<Postagem>(BASE, formData)

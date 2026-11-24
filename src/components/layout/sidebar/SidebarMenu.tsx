@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import Avatar from '../../common/Avatar'
+import { MODAL_POSTAR } from '../../modals/ModalPostar'
 import type { Usuario } from '../../../types/api'
 
 interface SidebarMenuProps {
@@ -74,6 +75,17 @@ function SidebarMenu({
                     <ion-icon name="settings-outline"></ion-icon>
                     Configurações
                 </NavLink>
+            </li>
+            <li className="mt-2">
+                <button
+                    type="button"
+                    className="btn btn-primary d-flex align-items-center justify-content-center w-100"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#${MODAL_POSTAR}`}
+                >
+                    <ion-icon name="create-outline"></ion-icon>
+                    Postar
+                </button>
             </li>
         </ul>
     )

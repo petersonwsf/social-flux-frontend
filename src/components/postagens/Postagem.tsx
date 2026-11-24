@@ -8,7 +8,7 @@ import Deslizante from '../common/Deslizante'
 import FormComentar from '../forms/FormComentar'
 import DropdownActions from './DropdownActions'
 import EmRespostaA from './EmRespostaA'
-import ImagemPostagem from './ImagemPostagem'
+import GaleriaImagens from './GaleriaImagens'
 import { CommentButton, LikeButton } from './PostActions'
 import type { Postagem as PostagemModel } from '../../types/api'
 
@@ -34,7 +34,7 @@ function Postagem({ postagem, onExcluir, onResposta }: PostagemProps) {
                 <div className="w-100 ps-3 d-flex flex-column min-w-0">
                     <div className="d-flex infos-user mb-1 justify-content-between">
                         <Link
-                            className="d-flex text-decoration-none align-items-center w-75 text-truncate"
+                            className="d-flex text-decoration-none align-items-center min-w-0 flex-grow-1 text-truncate"
                             to={`/perfil/${autor.username}`}
                         >
                             <span className="nome-limitado">{autor.nome}</span>
@@ -44,7 +44,7 @@ function Postagem({ postagem, onExcluir, onResposta }: PostagemProps) {
                     </div>
                     {postagem.pai && <EmRespostaA pai={postagem.pai} comLink />}
                     {postagem.legenda && <p className="legenda text-break">{postagem.legenda}</p>}
-                    {postagem.imagem && <ImagemPostagem imagem={postagem.imagem} className="mt-2" />}
+                    {postagem.imagens.length > 0 && <GaleriaImagens imagens={postagem.imagens} className="mt-2" />}
                     <p className="text-secondary data-publicacao mt-2">{formatDate(postagem.criado_em)}</p>
                     <div className="infos-post d-flex">
                         <span className="me-3">{curtidas.total} Curtidas</span>

@@ -73,6 +73,8 @@ export interface Postagem {
     id: string
     legenda: string | null
     imagem: ImagemPostagem | null
+    /** Todas as imagens, em ordem (até 5); `imagem` é a primeira. */
+    imagens: ImagemPostagem[]
     criado_em: string
     autor: UsuarioResumo
     pai: PaiPostagem | null
@@ -194,10 +196,11 @@ export interface EditarPerfilPayload {
     username: string
     nome: string
     biografia: string
-    privado: boolean
+    /** Omitido = não alterar (a tela de edição não envia; quem altera é Configurações). */
+    privado?: boolean
 }
 
 export interface CriarPostagemPayload {
     legenda: string
-    imagem: File | null
+    imagens: File[]
 }

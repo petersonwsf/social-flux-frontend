@@ -72,6 +72,11 @@ ion-icon {
     margin-right: 0.5rem;
 }
 
+/* Títulos grandes (display-5) encolhem em telas pequenas, em vez de ocupar a linha toda. */
+.display-5 {
+    font-size: clamp(1.6rem, 6.5vw, 3rem);
+}
+
 /* ---------- Componentes do Bootstrap na paleta ---------- */
 .btn {
     --bs-btn-border-radius: 999px;
@@ -171,7 +176,7 @@ ion-icon {
 
 /* ---------- Layout ---------- */
 .sidebar {
-    width: 380px;
+    width: clamp(280px, 30vw, 380px);
     height: 100vh;
     top: 0;
     background: var(--sf-surface);
@@ -253,6 +258,9 @@ ion-icon {
 
 .footer-bar .nav-link {
     color: var(--bs-body-color);
+    padding: 0.5rem 0.55rem;
+    background: none;
+    border: 0;
     border-radius: 12px;
 }
 
@@ -274,8 +282,9 @@ ion-icon {
         background: var(--sf-surface);
     }
 
+    /* Espaço extra no fim para a barra inferior e o botão flutuante "Postar" não cobrirem o último item. */
     .container-main {
-        padding: 0 0 4.5rem;
+        padding: 0 0 7.5rem;
     }
 
     .main {
@@ -316,4 +325,25 @@ ion-icon {
 .auth-form {
     width: 100%;
     max-width: 480px;
+}
+
+/* Botão "Postar" do mobile: redondo, fixo no canto inferior direito, acima da barra de navegação. */
+.fab-postar {
+    position: fixed;
+    right: 1rem;
+    bottom: 4.75rem;
+    z-index: 1031;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(var(--sf-primary-rgb), 0.45);
+}
+
+.fab-postar ion-icon {
+    margin: 0;
+    font-size: 1.6rem;
 }

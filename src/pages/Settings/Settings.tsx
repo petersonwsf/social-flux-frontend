@@ -2,12 +2,14 @@ import ButtonBack from '../../components/common/ButtonBack'
 import ModalAction from '../../components/modals/ModalAction'
 import ModalAlterarSenha from '../../components/modals/ModalAlterarSenha'
 import ModalExcluirUsuario from '../../components/modals/ModalExcluirUsuario'
-import { useAuth } from '../../hooks/useAuth'
+import FormPrivacidade from '../../components/forms/FormPrivacidade'
+import { useAuth, useCurrentUser } from '../../hooks/useAuth'
 import { useConta } from '../../hooks/useConta'
 import { useTheme } from '../../hooks/useTheme'
 
 function Settings() {
     const { darkMode, toggleTheme } = useTheme()
+    const user = useCurrentUser()
     const { logout, emailVerified } = useAuth()
     const { sairDeTodosOsDispositivos, reenviarVerificacao } = useConta()
 
@@ -32,6 +34,7 @@ function Settings() {
                         </label>
                     </div>
                 </div>
+<div className="settings-group">                    <p className="subtitle">Privacidade</p>                    <FormPrivacidade user={user} />                </div>
                 <div className="settings-group">
                     <p className="subtitle">Segurança</p>
                     {!emailVerified && (
