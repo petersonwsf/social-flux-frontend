@@ -73,6 +73,7 @@ function FormSignup({ onSubmit, toggleForm }: FormSignupProps) {
                         <FormField name="confirmarSenha" label="Confirme a senha" type="password" />
 
                         <button type="submit" className="btn btn-primary w-100 mt-2" disabled={isSubmitting}>
+                            {isSubmitting && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
                             Criar conta
                         </button>
                     </Form>

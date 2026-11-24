@@ -20,6 +20,7 @@ Legenda da coluna **Usado em**: onde o componente é usado hoje (ajuda a medir o
 | `NotFoundMessage` | `src/components/common/NotFoundMessage.tsx` | Ilustração + mensagem de item não encontrado | `msg` | `Perfil`, `PostPage` |
 | `ProtectedContent` | `src/components/common/ProtectedContent.tsx` | Aviso de conteúdo protegido (perfil privado não seguido) | — | `Perfil` |
 | `TabMenu` | `src/components/common/TabMenu.tsx` | Menu de abas genérico e tipado pelo id da aba | `tabs` (`{ id, label }[]`), `active`, `onChange(id)` | `Perfil`, `Notifications` |
+| `ToastApoio` | `src/components/common/ToastApoio.tsx` | Toast de apoio emocional mostrado quando uma postagem é recusada por automutilação (`conteudo_automutilacao`): mensagem do servidor, "Ligar para o 188" (`tel:`) e link para cvv.org.br; fica 30 s na tela (os toasts comuns, 6 s) | `mensagem`, `onFechar()` | `ToastProvider` (via `useToast().apoio`) |
 | `Deslizante` | `src/components/common/Deslizante.tsx` | Mostra/oculta o conteúdo com deslize vertical (abre e fecha animado; só desmonta ao fim do fechamento) | `aberto`, `children`, `className?` | `Postagem`, `PostSecondary` (formulário de comentário) |
 
 ## `auth/` — telas de conta

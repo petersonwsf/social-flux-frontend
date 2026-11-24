@@ -17,6 +17,15 @@ export function getErrorMessage(error: unknown): string {
     return FALLBACK
 }
 
+/** `codigo` estável do corpo de erro do backend (ex.: `conteudo_automutilacao`), quando existir. */
+export function getErrorCode(error: unknown): string | null {
+    if (!axios.isAxiosError(error)) return null
+    const data: unknown = error.response?.data
+    if (typeof data !== 'object' || data === null) return null
+    const codigo = (data as { codigo?: unknown }).codigo
+    return typeof codigo === 'string' ? codigo : null
+}
+
 /** HTTP status de um erro do axios, quando existir. */
 export function getErrorStatus(error: unknown): number | null {
     return axios.isAxiosError(error) ? (error.response?.status ?? null) : null

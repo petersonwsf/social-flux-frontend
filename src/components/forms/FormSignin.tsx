@@ -26,6 +26,7 @@ function FormSignin({ onSubmit, toggleForm }: FormSigninProps) {
                         <FormField name="email" label="Email" type="email" />
                         <FormField name="senha" label="Senha" type="password" />
                         <button type="submit" className="btn btn-primary w-100 mt-2" disabled={isSubmitting}>
+                            {isSubmitting && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
                             Entrar
                         </button>
                     </Form>

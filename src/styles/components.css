@@ -753,3 +753,56 @@
         display: none;
     }
 }
+
+/* ---------- Toast de apoio emocional (postagem recusada por automutilação) ---------- */
+.toast-apoio {
+    position: relative;
+    padding: 0.85rem 2.2rem 0.9rem 0.95rem;
+    color: var(--bs-body-color);
+    background: var(--sf-surface);
+    border: 1px solid var(--sf-border);
+    border-left: 4px solid rgb(var(--sf-primary-rgb));
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(var(--sf-primary-rgb), 0.15);
+}
+
+.toast-apoio-titulo {
+    margin: 0 0 0.3rem;
+    font-weight: 600;
+}
+
+.toast-apoio-titulo ion-icon {
+    vertical-align: -0.15em;
+    color: rgb(var(--sf-primary-rgb));
+}
+
+.toast-apoio-texto {
+    margin: 0 0 0.7rem;
+    font-size: 0.9rem;
+}
+
+.toast-apoio-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.toast-apoio-fechar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    padding: 0.1rem;
+    color: var(--sf-muted);
+    background: none;
+    border: 0;
+}
+
+.toast-apoio-fechar:hover {
+    color: var(--bs-body-color);
+}
+
+.toast-apoio-fechar ion-icon {
+    margin: 0;
+    font-size: 1.1rem;
+}
