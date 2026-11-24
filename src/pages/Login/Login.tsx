@@ -17,7 +17,11 @@ function Login() {
     return (
         <section className="login-page">
             <div className="row g-0">
-                <div className="col-12 col-lg-6 login-panel p-4 p-lg-5 d-flex align-items-center justify-content-center">
+                <div className="col-12 col-lg-6 login-panel p-4 p-lg-5 d-flex flex-column align-items-center justify-content-center">
+                    <div className="d-flex d-lg-none align-items-center mb-4 brand">
+                        <img src={logo} alt="" className="logo" />
+                        Social Flux
+                    </div>
                     {showLogin ? (
                         <FormSignin onSubmit={login} toggleForm={toggleForm} />
                     ) : (

@@ -19,8 +19,8 @@ function ActionsProfile({
 }: ActionsProfileProps) {
     if (ehProprioPerfil) {
         return (
-            <Link to="/editar" className="btn btn-primary">
-                Editar perfil
+            <Link to="/editar" className="btn btn-primary d-inline-flex align-items-center gap-1 px-4">
+                <ion-icon name="pencil-outline"></ion-icon> Editar perfil
             </Link>
         )
     }

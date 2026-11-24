@@ -14,12 +14,172 @@
     width: 50px;
 }
 
-.post-image {
-    display: block;
-    width: min(100%, 420px);
-    height: auto;              /* com width/height do <img>, o navegador reserva o espaço pela proporção */
+/* Galeria de imagens da postagem: 1 imagem inteira; 2 a 5 em grade (cortadas para caber). */
+.galeria {
+    display: grid;
+    gap: 2px;
+    width: min(100%, 480px);
+    overflow: hidden;
     border: 1px solid var(--sf-border);
     border-radius: 12px;
+}
+
+.galeria-item {
+    display: block;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    background: var(--sf-border);
+    border: 0;
+    cursor: zoom-in;
+}
+
+.galeria-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.galeria-1 {
+    width: min(100%, 420px);
+}
+
+.galeria-1 .galeria-item img {
+    height: auto;              /* com width/height do <img>, o navegador reserva o espaço pela proporção */
+    max-height: 520px;
+}
+
+.galeria-2,
+.galeria-3,
+.galeria-4,
+.galeria-5 {
+    aspect-ratio: 16 / 9;
+}
+
+.galeria-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.galeria-3,
+.galeria-4 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.galeria-3 .galeria-item:first-child {
+    grid-row: span 2;
+}
+
+.galeria-5 {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr 1fr;
+}
+
+.galeria-5 .galeria-item {
+    grid-column: span 2;
+}
+
+.galeria-5 .galeria-item:nth-child(-n + 2) {
+    grid-column: span 3;
+}
+
+/* Carrossel de imagens: painel centralizado sobre o fundo escuro */
+.carrossel {
+    position: fixed;
+    inset: 0;
+    z-index: 1090;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+}
+
+.carrossel-painel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: min(100%, 960px);
+    padding: 1.25rem 1rem 1rem;
+    background: var(--sf-surface);
+    border: 1px solid var(--sf-border);
+    border-radius: 20px;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+}
+
+.carrossel-palco {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.carrossel-imagem {
+    display: block;
+    min-width: 0;
+    max-width: min(calc(100vw - 10rem), 760px);
+    max-height: 68vh;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.carrossel-seta,
+.carrossel-fechar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--bs-body-color);
+    background: var(--sf-primary-soft);
+    border: 0;
+    border-radius: 50%;
+}
+
+.carrossel-seta:hover:not(:disabled),
+.carrossel-fechar:hover {
+    color: var(--sf-primary-text);
+}
+
+.carrossel-seta:disabled {
+    opacity: 0.3;
+}
+
+.carrossel-seta ion-icon,
+.carrossel-fechar ion-icon {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.carrossel-fechar {
+    align-self: flex-end;
+    width: 32px;
+    height: 32px;
+}
+
+.carrossel-pontos {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.carrossel-ponto {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    background: var(--sf-border);
+    border: 0;
+    border-radius: 50%;
+}
+
+.carrossel-ponto.ativo {
+    background: var(--sf-primary);
 }
 
 .infos-user a {
@@ -83,7 +243,8 @@
         font-size: 0.95rem;
     }
 
-    .post-image {
+    .galeria,
+    .galeria-1 {
         width: 100%;
     }
 }
@@ -98,19 +259,68 @@
     max-width: 160px;
 }
 
+/* Modal de seguidores/seguidos: altura da tela menos a margem padrão do Bootstrap (modal-dialog-scrollable); só o corpo rola. */
+.modal-lista-usuarios .list-users {
+    max-height: none;
+}
+
+.numero-relacoes-placeholder {
+    display: inline-block;
+    width: 1.75rem;
+    height: 1rem;
+    vertical-align: middle;
+}
+
+.foto-perfil-botao {
+    max-width: 160px;
+    cursor: zoom-in;
+}
+
+/* Foto ampliada: o próprio .modal (tela cheia) embaça o que está atrás, incluindo o backdrop. */
+.modal-foto-perfil {
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+}
+
+.foto-perfil-ampliada {
+    width: min(86vw, 420px);
+    height: min(86vw, 420px);
+    object-fit: cover;
+}
+
 .perfil-username {
-    font-size: clamp(1.25rem, 3.5vw, 2rem);
+    font-size: clamp(1.05rem, 3vw, 1.5rem);
     font-weight: 600;
+}
+
+.perfil-bio {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .perfil-nome,
 .perfil-bio {
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-size: clamp(0.8rem, 1.8vw, 0.95rem);
 }
 
 .follow {
     padding: 0 0.5rem;
     color: inherit;
+}
+
+/* Contadores compactos em telas pequenas, para ficarem na mesma linha do username. */
+.numero-relacoes-valor {
+    font-size: clamp(0.85rem, 3.4vw, 1rem);
+}
+
+.numero-relacoes-label {
+    font-size: clamp(0.62rem, 2.8vw, 0.875rem);
+}
+
+@media (max-width: 575.98px) {
+    .follow {
+        padding: 0 0.3rem;
+    }
 }
 
 .relacao-em-comum {
@@ -300,7 +510,8 @@
 /* Nome de usuário com limite: passou da largura máxima, termina em "...". */
 .nome-limitado {
     display: block;
-    max-width: 14rem;
+    max-width: min(14rem, 52vw);
+    flex-shrink: 0;             /* o nome tem prioridade sobre o @username, que encolhe primeiro */
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -319,4 +530,226 @@
 .no-content .no-content-icon ion-icon {
     font-size: 5rem;
     margin: 0;
+}
+
+/* Modal "Postar" */
+.modal-postar {
+    border-radius: 20px;
+}
+
+.campo-postar {
+    width: 100%;
+    resize: none;
+    padding: 0.5rem 0;
+    font-size: 1.15rem;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    outline: none;
+}
+
+.previa-imagem img {
+    display: block;
+    max-width: 100%;
+    max-height: 18rem;
+    object-fit: cover;
+}
+
+.previa-imagem-remover {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.previa-imagem-remover:hover {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.previas-imagens {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+    gap: 0.5rem;
+}
+
+.previas-imagens .previa-imagem img {
+    width: 100%;
+    height: 7rem;
+    max-height: none;
+    object-fit: cover;
+}
+
+.previas-imagens .previa-imagem-remover {
+    top: 0.25rem;
+    right: 0.25rem;
+    padding: 0.15rem;
+}
+
+/* Card de postagem inteiro é clicável (abre a postagem); os elementos com ação própria mantêm o cursor deles. */
+.post-secondary {
+    cursor: pointer;
+}
+
+/* ---------- Toast de notificação (foto + selo do tipo + frase + barra de tempo) ---------- */
+.toast-notificacao {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.7rem 0.6rem 0.85rem;
+    overflow: hidden;
+    color: var(--bs-body-color);
+    background: var(--sf-surface);
+    border: 1px solid var(--sf-border);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(var(--sf-primary-rgb), 0.15);
+}
+
+.toast-notificacao-link {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: 0.65rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.toast-notificacao-link:hover {
+    color: inherit;
+}
+
+.toast-notificacao-fotos {
+    position: relative;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+}
+
+.toast-notificacao-fotos.varios {
+    width: 50px;
+}
+
+.toast-notificacao-foto {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    background: var(--sf-primary-soft);
+}
+
+.toast-notificacao-fotos.varios .toast-notificacao-foto {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--sf-surface);
+}
+
+.toast-notificacao-fotos.varios .foto-0 {
+    top: 0;
+    left: 0;
+}
+
+.toast-notificacao-fotos.varios .foto-1 {
+    top: 10px;
+    left: 17px;
+}
+
+.toast-notificacao-tipo {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 21px;
+    height: 21px;
+    color: var(--sf-primary-text);
+    background: var(--sf-primary-soft);
+    border: 2px solid var(--sf-surface);
+    border-radius: 50%;
+}
+
+.toast-notificacao-tipo ion-icon {
+    margin: 0;
+    font-size: 0.75rem;
+}
+
+.toast-notificacao-tipo.tipo-like {
+    color: var(--bs-danger-text-emphasis);
+    background: var(--bs-danger-bg-subtle);
+}
+
+.toast-notificacao-corpo {
+    min-width: 0;
+}
+
+.toast-notificacao-corpo p {
+    margin: 0;
+}
+
+.toast-notificacao-legenda {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.toast-notificacao-trecho {
+    margin-top: 0.2rem !important;
+    overflow: hidden;
+    font-size: 0.8rem;
+    color: var(--sf-muted);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.toast-notificacao-tempo {
+    margin-top: 0.2rem !important;
+    font-size: 0.72rem;
+    color: var(--sf-muted);
+}
+
+.toast-notificacao-fechar {
+    display: flex;
+    flex-shrink: 0;
+    padding: 0.1rem;
+    color: var(--sf-muted);
+    background: none;
+    border: 0;
+}
+
+.toast-notificacao-fechar:hover {
+    color: var(--bs-body-color);
+}
+
+.toast-notificacao-fechar ion-icon {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.toast-notificacao-barra {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--sf-primary);
+    border-radius: 0 2px 2px 0;
+    transform-origin: left;
+    animation: toast-notificacao-barra linear forwards;
+}
+
+@keyframes toast-notificacao-barra {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .toast-notificacao-barra {
+        display: none;
+    }
 }

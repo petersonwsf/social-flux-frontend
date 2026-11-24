@@ -39,13 +39,19 @@ export async function removerSeguidor(idUsuario: string): Promise<void> {
     await api.delete(`/api/relacoes/seguidores/${idUsuario}`)
 }
 
-export async function listarSeguidores(idUsuario: string, cursor?: string): Promise<PaginaRelacoes> {
-    const { data } = await api.get<PaginaRelacoes>(`/api/relacoes/${idUsuario}/seguidores`, { params: { cursor } })
+/** `busca` (opcional) filtra no servidor por username ou nome, entre todos os seguidores, não só os já carregados. */
+export async function listarSeguidores(idUsuario: string, busca?: string, cursor?: string): Promise<PaginaRelacoes> {
+    const { data } = await api.get<PaginaRelacoes>(`/api/relacoes/${idUsuario}/seguidores`, {
+        params: { busca: busca || undefined, cursor },
+    })
     return data
 }
 
-export async function listarSeguidos(idUsuario: string, cursor?: string): Promise<PaginaRelacoes> {
-    const { data } = await api.get<PaginaRelacoes>(`/api/relacoes/${idUsuario}/seguidos`, { params: { cursor } })
+/** Mesma busca de `listarSeguidores`, entre quem o usuário segue. */
+export async function listarSeguidos(idUsuario: string, busca?: string, cursor?: string): Promise<PaginaRelacoes> {
+    const { data } = await api.get<PaginaRelacoes>(`/api/relacoes/${idUsuario}/seguidos`, {
+        params: { busca: busca || undefined, cursor },
+    })
     return data
 }
 

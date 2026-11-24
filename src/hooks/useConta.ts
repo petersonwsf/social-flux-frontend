@@ -26,6 +26,26 @@ export function useConta() {
         [user.id, updateUser, navigate, toast],
     )
 
+    const alterarPrivacidade = useCallback(
+        async (privado: boolean) => {
+            try {
+                updateUser(
+                    await usuarioService.editarPerfil(user.id, {
+                        id: user.id,
+                        username: user.username,
+                        nome: user.nome,
+                        biografia: user.biografia ?? '',
+                        privado,
+                    }),
+                )
+                toast.success(privado ? 'Sua conta agora é privada.' : 'Sua conta agora é pública.')
+            } catch (error) {
+                toast.error(getErrorMessage(error))
+            }
+        },
+        [user, updateUser, toast],
+    )
+
     const atualizarFotoPerfil = useCallback(
         async (foto: File) => {
             try {
@@ -83,6 +103,7 @@ export function useConta() {
 
     return {
         editarPerfil,
+        alterarPrivacidade,
         atualizarFotoPerfil,
         alterarSenha,
         sairDeTodosOsDispositivos,

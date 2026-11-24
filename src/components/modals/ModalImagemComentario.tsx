@@ -2,7 +2,8 @@ import { TIPOS_ACEITOS } from '../../lib/midia'
 
 interface ModalImagemComentarioProps {
     id: string
-    onSelect: (file: File | null) => void
+    /** Chamado com os arquivos escolhidos (até 5 imagens ou um GIF). */
+    onSelect: (files: File[]) => void
 }
 
 function ModalImagemComentario({ id, onSelect }: ModalImagemComentarioProps) {
@@ -19,8 +20,9 @@ function ModalImagemComentario({ id, onSelect }: ModalImagemComentarioProps) {
                                 className="form-control"
                                 type="file"
                                 accept={TIPOS_ACEITOS}
-                                aria-label="Imagem ou GIF do comentário"
-                                onChange={(event) => onSelect(event.currentTarget.files?.[0] ?? null)}
+                                aria-label="Imagens ou GIF do comentário"
+                                multiple
+                                onChange={(event) => onSelect(Array.from(event.currentTarget.files ?? []))}
                             />
                         </div>
                     </div>

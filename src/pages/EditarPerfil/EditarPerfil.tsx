@@ -20,7 +20,7 @@ function EditarPerfil() {
             </div>
             <hr />
             <div className="row g-0 px-3">
-                <div className="col-12 col-xl-6 mb-3">
+                <div className="col-12 mb-3">
                     <FormEditarPerfil user={user} onSubmit={editarPerfil} />
                 </div>
             </div>

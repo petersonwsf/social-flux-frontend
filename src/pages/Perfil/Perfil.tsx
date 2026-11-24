@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import ButtonBack from '../../components/common/ButtonBack'
 import Loading from '../../components/common/Loading'
 import NotFoundMessage from '../../components/common/NotFoundMessage'
@@ -30,18 +30,18 @@ const TABS: ReadonlyArray<{ id: FiltroPostagensUsuario; label: string }> = [
 
 function PerfilView({ perfil }: { perfil: Usuario }) {
     const user = useCurrentUser()
-    const { estado, contagens, seguir, deixarDeSeguir, removerSeguidor } = useRelacao(user, perfil)
+    const { estado, contagens, carregandoContagens, seguir, deixarDeSeguir, removerSeguidor } = useRelacao(user, perfil)
     const [aba, setAba] = useState<FiltroPostagensUsuario>('posts')
 
     const ehProprioPerfil = perfil.id === user.id
     const podeVerConteudo = ehProprioPerfil || !perfil.privado || estado === 'SEGUINDO'
 
     // As listas só são buscadas quando o modal é aberto pela primeira vez (conta privada não seguida recebe um aviso).
-    const seguidores = useListaRelacoes(useModalAberto(MODAL_SEGUIDORES), (cursor) =>
-        relacaoService.listarSeguidores(perfil.id, cursor),
+    const seguidores = useListaRelacoes(useModalAberto(MODAL_SEGUIDORES), (busca, cursor) =>
+        relacaoService.listarSeguidores(perfil.id, busca, cursor),
     )
-    const seguidos = useListaRelacoes(useModalAberto(MODAL_SEGUIDOS), (cursor) =>
-        relacaoService.listarSeguidos(perfil.id, cursor),
+    const seguidos = useListaRelacoes(useModalAberto(MODAL_SEGUIDOS), (busca, cursor) =>
+        relacaoService.listarSeguidos(perfil.id, busca, cursor),
     )
 
     const aoRemoverSeguidor = async (seguidor: UsuarioResumo) => {
@@ -50,27 +50,23 @@ function PerfilView({ perfil }: { perfil: Usuario }) {
 
     return (
         <div className="perfil">
-            <div className="w-100 d-flex justify-content-between align-items-center">
-                <ButtonBack />
-                <Link to="/settings" className="d-flex d-lg-none btn btn-icon" aria-label="Configurações">
-                    <ion-icon name="settings-outline"></ion-icon>
-                </Link>
-            </div>
+            <ButtonBack />
             <InfoPerfil
                 perfil={perfil}
                 user={user}
                 numeroSeguidores={contagens.seguidores}
                 numeroSeguidos={contagens.seguidos}
+                carregandoContagens={carregandoContagens}
                 estado={estado}
                 onSeguir={() => void seguir()}
                 onCancelarSolicitacao={() => void deixarDeSeguir()}
             />
             <TabMenu tabs={TABS} active={aba} onChange={setAba} />
-            <div className="mt-4 text-center">
+            <div className="mt-4">
                 {podeVerConteudo ? (
                     <PerfilPostagens perfil={perfil} filtro={aba} />
                 ) : (
-                    <div className="mt-5">
+                    <div className="mt-5 text-center">
                         <ProtectedContent />
                     </div>
                 )}
@@ -85,6 +81,9 @@ function PerfilView({ perfil }: { perfil: Usuario }) {
             <ModalListUsers
                 id={MODAL_SEGUIDORES}
                 title="Seguidores"
+                busca={seguidores.busca}
+                onBuscaChange={seguidores.setBusca}
+                buscando={seguidores.buscando}
                 msgDefault="Não há seguidores"
                 users={seguidores.usuarios}
                 erro={seguidores.erro}
@@ -96,6 +95,9 @@ function PerfilView({ perfil }: { perfil: Usuario }) {
             <ModalListUsers
                 id={MODAL_SEGUIDOS}
                 title="Seguidos"
+                busca={seguidos.busca}
+                onBuscaChange={seguidos.setBusca}
+                buscando={seguidos.buscando}
                 msgDefault="Não há seguidos"
                 users={seguidos.usuarios}
                 erro={seguidos.erro}
@@ -117,7 +119,7 @@ function Perfil() {
         <>
             <ButtonBack />
             <div className="perfil d-flex justify-content-center align-items-center px-3">
-                {naoEncontrado ? <NotFoundMessage msg="Usuário não encontrado" /> : <Loading />}
+                {naoEncontrado ? <NotFoundMessage msg="Usuário não encontrado" /> : <Loading width="120px" />}
             </div>
         </>
     )

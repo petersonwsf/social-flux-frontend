@@ -3,7 +3,6 @@ import { NotificationsContext, type NotificationsContextValue } from './notifica
 import { getErrorMessage } from '../lib/errors'
 import { iniciarTempoReal } from '../lib/notificacoesTempoReal'
 import type { EventoTempoReal } from '../lib/notificacoesStream'
-import { fraseDaNotificacao } from '../lib/notificacoesTexto'
 import * as notificationService from '../services/notificationService'
 import * as relacaoService from '../services/relacaoService'
 import { useCurrentUser } from '../hooks/useAuth'
@@ -60,7 +59,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
                     setNotificacoes((lista) => [nova, ...lista.filter((item) => item.id !== nova.id)])
                     const recente = Date.now() - Date.parse(nova.atualizada_em) < IDADE_MAXIMA_TOAST_MS
                     if (!nova.vista && recente && areasAbertas.current === 0) {
-                        toast.notify({ mensagem: fraseDaNotificacao(nova), sucesso: true })
+                        toast.notificar(nova)
                     }
                     break
                 }

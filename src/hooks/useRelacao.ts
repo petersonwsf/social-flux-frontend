@@ -8,7 +8,7 @@ const SEM_CONTAGENS: ContagensRelacao = { seguidores: 0, seguidos: 0 }
 
 /**
  * Relação entre o usuário logado e o dono do perfil: estado (seguindo, solicitado ou nenhum), contadores e as ações
- * seguir, deixar de seguir/cancelar e remover seguidor. As listas de seguidores/seguidos são paginadas e carregadas
+ * seguir, deixar de seguir/cancelar e remover seguidor (`carregandoContagens` vale até a primeira resposta). As listas de seguidores/seguidos são paginadas e carregadas
  * sob demanda por `useListaRelacoes`.
  */
 export function useRelacao(user: Usuario, perfil: Usuario) {
@@ -16,11 +16,13 @@ export function useRelacao(user: Usuario, perfil: Usuario) {
     const ehProprioPerfil = user.id === perfil.id
     const [estado, setEstado] = useState<EstadoRelacao>('NENHUM')
     const [contagens, setContagens] = useState<ContagensRelacao>(SEM_CONTAGENS)
+    const [carregandoContagens, setCarregandoContagens] = useState(true)
 
     useEffect(() => {
         let ignore = false
 
         const carregar = async () => {
+            setCarregandoContagens(true)
             try {
                 const [novasContagens, relacao] = await Promise.all([
                     relacaoService.buscarContagens(perfil.id),
@@ -31,6 +33,8 @@ export function useRelacao(user: Usuario, perfil: Usuario) {
                 setEstado(relacao?.estado ?? 'NENHUM')
             } catch (error) {
                 if (!ignore) toast.error(getErrorMessage(error))
+            } finally {
+                if (!ignore) setCarregandoContagens(false)
             }
         }
 
@@ -82,5 +86,5 @@ export function useRelacao(user: Usuario, perfil: Usuario) {
         [ajustarSeguidores, toast],
     )
 
-    return { estado, contagens, seguir, deixarDeSeguir, removerSeguidor }
+    return { estado, contagens, carregandoContagens, seguir, deixarDeSeguir, removerSeguidor }
 }

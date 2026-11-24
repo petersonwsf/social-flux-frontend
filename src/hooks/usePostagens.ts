@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type Dispatch, type SetStateAction } from 'react'
 import * as postagemService from '../services/postagemService'
 import { getErrorMessage } from '../lib/errors'
+import { useAoCriarPostagem } from '../lib/eventosPostagem'
 import { useToast } from './useToast'
 import type { PaginaPostagens, Postagem } from '../types/api'
 
@@ -22,6 +23,8 @@ export interface PostagensPaginadas {
 function usePostagensPaginadas(
     buscar: (cursor?: string) => Promise<PaginaPostagens>,
     deps: readonly unknown[],
+    /** Decide se uma postagem recém-criada pelo usuário entra no topo desta lista. */
+    aceitaNova?: (postagem: Postagem) => boolean,
 ): PostagensPaginadas {
     const toast = useToast()
     const [postagens, setPostagens] = useState<Postagem[]>([])
@@ -29,6 +32,8 @@ function usePostagensPaginadas(
     const [carregando, setCarregando] = useState(true)
     const [carregandoMais, setCarregandoMais] = useState(false)
     const geracao = useRef(0)
+    const aceitaNovaRef = useRef(aceitaNova)
+    aceitaNovaRef.current = aceitaNova
     const buscarRef = useRef(buscar)
     buscarRef.current = buscar
 
@@ -74,17 +79,32 @@ function usePostagensPaginadas(
             })
     }, [proximoCursor, carregandoMais, toast])
 
+    useAoCriarPostagem(
+        useCallback((criada: Postagem) => {
+            if (!aceitaNovaRef.current?.(criada)) return
+            setPostagens((lista) => (lista.some((postagem) => postagem.id === criada.id) ? lista : [criada, ...lista]))
+        }, []),
+    )
+
     return { postagens, setPostagens, carregando, carregandoMais, temMais: proximoCursor !== null, carregarMais }
 }
 
 /** Postagens das pessoas seguidas pelo usuário logado. */
 export function useFeed() {
-    return usePostagensPaginadas((cursor) => postagemService.buscarFeed(cursor), [])
+    return usePostagensPaginadas(
+        (cursor) => postagemService.buscarFeed(cursor),
+        [],
+        (nova) => nova.pai === null,
+    )
 }
 
 /** Postagens de um usuário (`autor` = UUID da conta) conforme a aba. */
 export function usePostagensUsuario(autor: string, filtro: postagemService.FiltroPostagensUsuario) {
-    return usePostagensPaginadas((cursor) => postagemService.buscarDoUsuario(autor, filtro, cursor), [autor, filtro])
+    return usePostagensPaginadas(
+        (cursor) => postagemService.buscarDoUsuario(autor, filtro, cursor),
+        [autor, filtro],
+        (nova) => nova.autor.id === autor && nova.pai === null && (filtro !== 'midia' || nova.imagens.length > 0),
+    )
 }
 
 /** Respostas de uma postagem; mudar `versao` recarrega a lista (ex.: depois de comentar). */
