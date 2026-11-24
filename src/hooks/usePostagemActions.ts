@@ -1,8 +1,11 @@
 import { useCallback, useState } from 'react'
 import * as postagemService from '../services/postagemService'
-import { getErrorMessage } from '../lib/errors'
+import { getErrorCode, getErrorMessage } from '../lib/errors'
 import { useToast } from './useToast'
 import type { CriarPostagemPayload, Postagem } from '../types/api'
+
+/** Código que o post_service devolve ao recusar texto ou imagem de automutilação. */
+const CODIGO_AUTOMUTILACAO = 'conteudo_automutilacao'
 
 /** Cria uma postagem (ou uma resposta, quando `pai` é informado). Devolve a postagem criada, ou `null` se falhou. */
 export function useCriarPostagem(onCriada?: (postagem: Postagem) => void) {
@@ -18,7 +21,11 @@ export function useCriarPostagem(onCriada?: (postagem: Postagem) => void) {
                 onCriada?.(criada)
                 return criada
             } catch (error) {
-                toast.error(getErrorMessage(error))
+                if (getErrorCode(error) === CODIGO_AUTOMUTILACAO) {
+                    toast.apoio(getErrorMessage(error))
+                } else {
+                    toast.error(getErrorMessage(error))
+                }
                 return null
             } finally {
                 setEnviando(false)

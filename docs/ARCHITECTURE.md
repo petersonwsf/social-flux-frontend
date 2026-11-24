@@ -108,7 +108,7 @@ Cada contexto tem um arquivo `xxxContext.ts` (tipo + `createContext`) e um `XxxP
 | --- | --- |
 | `authContext.ts` / `AuthProvider.tsx` | Sessão: `user` (perfil), `account` (UUID, e-mail), `emailVerified`, `carregando`, `login`, `register`, `logout`, `applyAuth`, `updateUser`, `refreshUser`. Restaura a sessão pelos cookies ao abrir, apaga o token antigo do `localStorage` e volta ao login quando a sessão não pode ser renovada |
 | `themeContext.ts` / `ThemeProvider.tsx` | Tema claro/escuro via `data-bs-theme` do Bootstrap, persistido no `localStorage` (migra a chave antiga do redux-persist) |
-| `toastContext.ts` / `ToastProvider.tsx` | Fila de toasts (`success`, `error`, `notify` para `{ mensagem, sucesso }` e `notificar` para uma notificação em tempo real, exibida com `ToastNotificacao`) renderizada em `.toast-stack` |
+| `toastContext.ts` / `ToastProvider.tsx` | Fila de toasts (`success`, `error`, `notify` para `{ mensagem, sucesso }`, `apoio` para a mensagem de apoio emocional com o CVV 188, exibida com `ToastApoio` por 30 s, e `notificar` para uma notificação em tempo real, exibida com `ToastNotificacao`) renderizada em `.toast-stack` |
 | `notificationsContext.ts` / `NotificationsProvider.tsx` | Notificações do usuário logado (agrupadas, paginadas), contador de não vistas, aceitar/recusar solicitação direto da notificação e o **tempo real**: carrega a primeira página e liga o stream (`lib/notificacoesTempoReal.ts`); eventos `notificacao`/`removida`/`contagem`/`recarregar` atualizam a lista; toast quando chega algo fora da área de notificações (`abrirArea` marca a área aberta); montado dentro do `ProtectedLayout` |
 
 ### `src/hooks/`
@@ -122,7 +122,7 @@ Cada contexto tem um arquivo `xxxContext.ts` (tipo + `createContext`) e um `XxxP
 | `usePesquisaUsuarios.ts` | Busca de usuários com debounce |
 | `usePostagens.ts` | Listas paginadas por cursor (`carregarMais`, `temMais`, `carregandoMais`): `useFeed` (minhas postagens e de quem sigo), `usePostagensUsuario` (abas posts/interações/mídia; autor pelo UUID da conta) e `useRespostas` | Recebem postagens criadas no modal via `useAoCriarPostagem`.
 | `usePostagemDetalhe.ts` | Postagem da página de detalhe e a cadeia de pais (`/ancestrais`); `naoEncontrada` em 404; versão das respostas para recarregar |
-| `usePostagemActions.ts` | `useCriarPostagem` (postagem ou resposta; devolve a postagem criada) e `useExcluirPostagem` |
+| `usePostagemActions.ts` | `useCriarPostagem` (postagem ou resposta; devolve a postagem criada; se o servidor recusa por automutilação, `conteudo_automutilacao`, mostra o toast de apoio em vez do de erro) e `useExcluirPostagem` |
 | `usePostagemInteracoes.ts` | Junta curtidas, número de respostas (vindo da postagem, +1 local ao comentar) e o envio de comentário de um card |
 | `useCurtidas.ts` | `curtido`/`curtidas` iniciais vindos da postagem; curtir/descurtir (`PUT`/`DELETE …/curtida`) usam o estado devolvido (a notificação ao autor nasce no servidor, pelo evento `post.liked.v1`) |
 | `useRelacao.ts` | Relação entre o logado e o dono do perfil: `estado` (`NENHUM`/`SOLICITADO`/`SEGUINDO`), contadores (com `carregandoContagens` até a primeira resposta) e as ações seguir, deixar de seguir/cancelar e remover seguidor |
@@ -140,7 +140,7 @@ Cada contexto tem um arquivo `xxxContext.ts` (tipo + `createContext`) e um `XxxP
 | `notificacoesTempoReal.ts` | Aba líder (D10): Web Locks elege a aba que abre o stream e o BroadcastChannel repassa eventos e atividade às outras; se a líder fecha, outra assume. Sem essas APIs, um stream por aba |
 | `notificacoesTexto.ts` | Frases agrupadas ("Ana, Bia e mais 3 curtiram sua publicação") e destino de cada notificação |
 | `session.ts` | Temporização da sessão em memória (`setSessionTiming`, `shouldRenewSession`) e `refreshSession` (renovação única, com Web Locks entre abas) |
-| `errors.ts` | `getErrorMessage` (texto de qualquer erro) e `getErrorStatus` (status HTTP do axios) |
+| `errors.ts` | `getErrorMessage` (texto de qualquer erro), `getErrorCode` (`codigo` estável do corpo de erro do backend) e `getErrorStatus` (status HTTP do axios) |
 | `dates.ts` | `calcTempPost` (tempo relativo curto) e `formatDate`, a partir de datas ISO-8601 (UTC) |
 | `imageUrl.ts` | `getAvatarUrl` (chave `av_…` → `/media/avatars/…`, pública) e `getPostImageUrl` (`imagem.url` da postagem → `/media/posts/…`, autenticada pelo cookie) |
 | `midia.ts` | Regras de anexo conferidas no cliente só por conveniência: tipos aceitos (PNG, JPEG, WebP, GIF), até 5 imagens (GIF só sozinho), 5 MB/8 MB, texto ≤ 1.000, "texto ou imagem" |

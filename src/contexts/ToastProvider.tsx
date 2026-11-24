@@ -1,13 +1,17 @@
 import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react'
 import { ToastContext, type ToastContextValue } from './toastContext'
+import ToastApoio from '../components/common/ToastApoio'
 import ToastNotificacao from '../components/notifications/ToastNotificacao'
 import type { Mensagem, Notificacao } from '../types/api'
 
 type ToastItem =
     | ({ id: number; tipo: 'mensagem' } & Mensagem)
     | { id: number; tipo: 'notificacao'; notificacao: Notificacao }
+    | { id: number; tipo: 'apoio'; mensagem: string }
 
 const TOAST_DURATION_MS = 6000
+/** A mensagem de apoio fica mais tempo: a pessoa precisa de tempo para ler e para ligar ou abrir o link. */
+const TOAST_APOIO_DURATION_MS = 30000
 
 export function ToastProvider({ children }: { children: ReactNode }) {
     const [toasts, setToasts] = useState<ToastItem[]>([])
@@ -18,10 +22,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     }, [])
 
     const adicionar = useCallback(
-        (criar: (id: number) => ToastItem) => {
+        (criar: (id: number) => ToastItem, duracaoMs = TOAST_DURATION_MS) => {
             const id = nextId.current++
             setToasts((current) => [...current, criar(id)])
-            window.setTimeout(() => dismiss(id), TOAST_DURATION_MS)
+            window.setTimeout(() => dismiss(id), duracaoMs)
         },
         [dismiss],
     )
@@ -36,14 +40,20 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         [adicionar],
     )
 
+    const apoio = useCallback(
+        (mensagem: string) => adicionar((id) => ({ id, tipo: 'apoio', mensagem }), TOAST_APOIO_DURATION_MS),
+        [adicionar],
+    )
+
     const value = useMemo<ToastContextValue>(
         () => ({
             notify,
             notificar,
+            apoio,
             success: (text) => notify({ mensagem: text, sucesso: true }),
             error: (text) => notify({ mensagem: text, sucesso: false }),
         }),
-        [notify, notificar],
+        [notify, notificar, apoio],
     )
 
     return (
@@ -58,6 +68,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                             duracaoMs={TOAST_DURATION_MS}
                             onFechar={() => dismiss(toast.id)}
                         />
+                    ) : toast.tipo === 'apoio' ? (
+                        <ToastApoio key={toast.id} mensagem={toast.mensagem} onFechar={() => dismiss(toast.id)} />
                     ) : (
                         <div
                             key={toast.id}
