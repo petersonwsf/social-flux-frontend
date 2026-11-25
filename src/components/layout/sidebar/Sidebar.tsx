@@ -67,7 +67,15 @@ function Sidebar({ user }: { user: Usuario }) {
                     </button>
                 </div>
             </aside>
-            <ModalAction id="modalLogout" title="Deseja sair?" action={() => void logout()} titleAction="Sair" danger />
+            <ModalAction
+                id="modalLogout"
+                title="Sair da conta?"
+                descricao="Você precisará entrar novamente para acessar sua conta neste dispositivo."
+                icone="log-out-outline"
+                titleAction="Sair"
+                action={() => void logout()}
+                danger
+            />
             <ModalPostar user={user} />
         </section>
     )
