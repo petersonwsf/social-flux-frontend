@@ -40,7 +40,7 @@ function Postagem({ postagem, onExcluir, onResposta }: PostagemProps) {
                             <span className="nome-limitado">{autor.nome}</span>
                             <span className="mx-2 text-truncate username-muted">@{autor.username}</span>
                         </Link>
-                        {ehDoUsuario(autor, user) && <DropdownActions onExcluir={() => onExcluir(postagem.id)} />}
+                        {ehDoUsuario(autor, user) && <DropdownActions id={postagem.id} onExcluir={() => onExcluir(postagem.id)} />}
                     </div>
                     {postagem.pai && <EmRespostaA pai={postagem.pai} comLink />}
                     {postagem.legenda && <p className="legenda text-break">{postagem.legenda}</p>}

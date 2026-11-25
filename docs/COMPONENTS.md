@@ -43,17 +43,17 @@ Cada formulário define o próprio esquema Yup e recebe `onSubmit` assíncrono; 
 | `FormComentar` | `src/components/forms/FormComentar.tsx` | Resposta a uma postagem (texto, emojis na posição do cursor e/ou imagem/GIF por modal), com avatar do usuário e validação "texto ou imagem" | `user`, `idPostagem` (UUID; gera id de modal único), `onSubmit(CriarPostagemPayload)` | `Postagem`, `PostSecondary` |
 | `SeletorEmoji` | `src/components/forms/SeletorEmoji.tsx` | Botão com grade de emojis (dropdown do Bootstrap) | `onSelecionar(emoji)` | `FormComentar`, `FormField` (`emoji`) |
 | `FormEditarPerfil` | `src/components/forms/FormEditarPerfil.tsx` | Edição de username, nome e biografia (com emojis); botão salvar com ícone de check e spinner | `user`, `onSubmit(EditarPerfilPayload)` | `EditarPerfil` |
-| `FormPrivacidade` | `src/components/forms/FormPrivacidade.tsx` | Opção "Conta privada" com botão "Salvar modificações" (ícone de check; spinner enquanto salva); usa `useConta` | `user` | `Settings` |
+| `FormPrivacidade` | `src/components/forms/FormPrivacidade.tsx` | Opção "Conta privada": o interruptor abre um `ModalAction` de confirmação e só salva ao confirmar (sem botão de salvar; spinner ao lado enquanto salva); usa `useConta` | `user` | `Settings` |
 | `FormAlterarFotoPerfil` | `src/components/forms/FormAlterarFotoPerfil.tsx` | Envio de nova foto de perfil | `onSubmit(foto: File)` | `EditarPerfil` |
 
 ## `modals/` — modais do Bootstrap
 
 | Componente | Caminho | Para que serve | Props principais | Usado em |
 | --- | --- | --- | --- | --- |
-| `ModalAction` | `src/components/modals/ModalAction.tsx` | Confirmação genérica (confirmar/cancelar) | `id`, `title`, `titleAction`, `action()`, `danger?` (botão vermelho) | `Perfil` (deixar de seguir), `Settings` (sair de todos) |
+| `ModalAction` | `src/components/modals/ModalAction.tsx` | Confirmação genérica: ícone em círculo no topo, título, texto de apoio e dois botões lado a lado (Cancelar e confirmar); estilos `.modal-acao*` em `components.css` | `id`, `title`, `descricao?`, `icone?` (ionicons), `titleAction`, `action()`, `danger?` (ícone e botão vermelhos) | `Sidebar` e `Settings` (sair, sair de todos), `Perfil` (deixar de seguir), `FormPrivacidade`, `DropdownActions` (excluir postagem) |
 | `ModalListUsers` | `src/components/modals/ModalListUsers.tsx` | Lista de usuários (`UsuarioResumo`) com avatar e link para o perfil; opcionalmente paginada ("Carregar mais"), com mensagem de erro no lugar da lista e botão "Remover" por item; ocupa a altura toda da tela; título pequeno e centralizado, itens compactos (foto 40px, username e nome abaixo) e, com `onBuscaChange`, campo de busca no topo (quem usa faz a busca, com debounce, p.ex. `useListaRelacoes`); loading pequeno no lugar da lista enquanto `buscando` | `id`, `title`, `users`, `msgDefault` (lista vazia), `erro?`, `temMais?`, `carregando?`, `onCarregarMais?`, `onRemover?(usuario)`, `busca?`, `onBuscaChange?(busca)`, `buscando?` | `Perfil` (seguidores/seguidos), `RelacoesEmComum` |
 | `ModalAlterarSenha` | `src/components/modals/ModalAlterarSenha.tsx` | Troca de senha (atual, nova, confirmação); usa `useConta` | `id` | `Settings` |
-| `ModalExcluirUsuario` | `src/components/modals/ModalExcluirUsuario.tsx` | Exclusão da conta com senha + confirmação; usa `useConta` | `id` | `Settings` |
+| `ModalExcluirUsuario` | `src/components/modals/ModalExcluirUsuario.tsx` | Exclusão da conta com senha + confirmação, no mesmo estilo do `ModalAction` (ícone, texto de apoio, Cancelar e botão vermelho com spinner); usa `useConta` | `id` | `Settings` |
 | `ModalFotoPerfil` | `src/components/modals/ModalFotoPerfil.tsx` | Foto de perfil ampliada no centro da tela, com fundo embaçado; fecha ao clicar fora ou em Esc | `id`, `user` (`foto_perfil`, `username`) | `InfoPerfil` |
 | `ModalImagemComentario` | `src/components/modals/ModalImagemComentario.tsx` | Escolha de imagens (até 5) ou um GIF para anexar a um comentário | `id`, `onSelect(files: File[])` | `FormComentar` |
 | `ModalPostar` | `src/components/modals/ModalPostar.tsx` | Modal "Postar" (estilo rede social): texto com emojis, até 5 imagens (ou um GIF) com miniaturas removíveis, contador e botão com spinner; ao publicar emite `emitirPostagemCriada` (feed e perfil abertos atualizam) | `user`; exporta `MODAL_POSTAR` (id) | `Sidebar` (botão em `SidebarMenu`) |
@@ -84,7 +84,7 @@ Cada formulário define o próprio esquema Yup e recebe `onSubmit` assíncrono; 
 | `EmRespostaA` | `src/components/postagens/EmRespostaA.tsx` | "Em resposta a @fulano" (ou "a uma publicação" quando o pai não é visível) | `pai` (`PaiPostagem`), `comLink?` | `Postagem`, `PostSecondary` |
 | `LikeButton` | `src/components/postagens/PostActions.tsx` | Botão de curtir/descurtir (coração cheio quando curtido) | `curtido` (boolean), `onToggle()` | cards de postagem |
 | `CommentButton` | `src/components/postagens/PostActions.tsx` | Botão de comentar | `onClick()` | cards de postagem |
-| `DropdownActions` | `src/components/postagens/DropdownActions.tsx` | Menu "⋯" da postagem com a ação excluir | `onExcluir()` | cards de postagem (só do autor) |
+| `DropdownActions` | `src/components/postagens/DropdownActions.tsx` | Menu "⋯" da postagem com a ação excluir, que abre um `ModalAction` de confirmação (renderizado no `body`) | `id` (da postagem), `onExcluir()` | cards de postagem (só do autor) |
 
 ## `perfil/`
 

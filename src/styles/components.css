@@ -806,3 +806,119 @@
     margin: 0;
     font-size: 1.1rem;
 }
+
+/* Modal de confirmação (ModalAction): ícone em círculo, título, texto de apoio e dois botões lado a lado. */
+.modal-acao {
+    border-radius: 20px;
+}
+
+.modal-acao .modal-body {
+    padding: 1.5rem 1.25rem 1.25rem;
+}
+
+.modal-acao-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    margin: 0 auto 0.9rem;
+    font-size: 1.6rem;
+    color: var(--sf-primary-text);
+    background: var(--sf-primary-soft);
+    border-radius: 50%;
+}
+
+.modal-acao-icone.perigo {
+    color: var(--bs-danger);
+    background: rgba(var(--bs-danger-rgb), 0.14);
+}
+
+[data-bs-theme='dark'] .modal-acao-icone.perigo {
+    color: var(--bs-danger-text-emphasis);
+}
+
+.modal-acao-titulo {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.modal-acao-descricao {
+    margin: 0 0 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--sf-muted);
+}
+
+.modal-acao-titulo:last-child {
+    margin-bottom: 1.25rem;
+}
+
+.modal-acao-botoes {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.modal-acao-botoes .btn {
+    flex: 1;
+    padding: 0.55rem 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 12px;
+}
+
+.modal-acao-cancelar {
+    color: var(--bs-body-color);
+    background: transparent;
+    border: 1px solid var(--sf-border);
+}
+
+.modal-acao-cancelar:hover,
+.modal-acao-cancelar:focus-visible {
+    color: var(--bs-body-color);
+    background: var(--sf-primary-soft);
+    border-color: var(--sf-border);
+}
+
+.modal-acao-confirmar {
+    color: #fff;
+    background: var(--sf-primary);
+    border: 1px solid var(--sf-primary);
+}
+
+.modal-acao-confirmar:hover,
+.modal-acao-confirmar:focus-visible {
+    color: #fff;
+    background: var(--sf-primary-hover);
+    border-color: var(--sf-primary-hover);
+}
+
+.modal-acao-perigo {
+    color: #fff;
+    background: var(--bs-danger);
+    border: 1px solid var(--bs-danger);
+}
+
+.modal-acao-perigo:hover,
+.modal-acao-perigo:focus-visible {
+    color: #fff;
+    background: #bb2d3b;
+    border-color: #bb2d3b;
+}
+
+.modal-acao-perigo:disabled,
+.modal-acao-confirmar:disabled {
+    color: #fff;
+    opacity: 0.5;
+}
+
+.modal-acao-perigo:disabled {
+    background: var(--bs-danger);
+    border-color: var(--bs-danger);
+}
+
+.modal-acao-confirmar:disabled {
+    background: var(--sf-primary);
+    border-color: var(--sf-primary);
+}

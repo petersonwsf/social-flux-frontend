@@ -73,7 +73,9 @@ function PerfilView({ perfil }: { perfil: Usuario }) {
             </div>
             <ModalAction
                 id={MODAL_DEIXAR_DE_SEGUIR}
-                title={`Deseja deixar de seguir @${perfil.username}?`}
+                title={`Deixar de seguir @${perfil.username}?`}
+                descricao="As postagens dessa pessoa deixam de aparecer no seu feed. Se a conta for privada, será preciso pedir para seguir de novo."
+                icone="person-remove-outline"
                 titleAction="Deixar de seguir"
                 action={() => void deixarDeSeguir()}
                 danger

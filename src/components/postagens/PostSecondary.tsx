@@ -13,7 +13,7 @@ import { CommentButton, LikeButton } from './PostActions'
 import type { Postagem } from '../../types/api'
 
 /** Partes do card que têm ação própria: clicar nelas não abre a postagem. */
-const ELEMENTOS_COM_ACAO = 'a, button, input, textarea, form, label, .galeria, .carrossel, .dropdown-menu, .slide-down, .slide-up'
+const ELEMENTOS_COM_ACAO = 'a, button, input, textarea, form, label, .galeria, .carrossel, .dropdown-menu, .modal, .slide-down, .slide-up'
 
 interface PostSecondaryProps {
     postagem: Postagem
@@ -53,7 +53,7 @@ function PostSecondary({ postagem, onExcluir }: PostSecondaryProps) {
                                 <span className="text-secondary me-2" aria-hidden="true">·</span>
                                 <span className="text-secondary">{calcTempPost(postagem.criado_em)}</span>
                             </div>
-                            {ehDoUsuario(autor, user) && <DropdownActions onExcluir={() => onExcluir(postagem.id)} />}
+                            {ehDoUsuario(autor, user) && <DropdownActions id={postagem.id} onExcluir={() => onExcluir(postagem.id)} />}
                         </div>
                         {postagem.pai && <EmRespostaA pai={postagem.pai} comLink />}
                         <Link className="text-decoration-none text-body mt-1" to={`/postagem/${postagem.id}`}>
